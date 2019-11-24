@@ -1,0 +1,13 @@
+{
+	"apps": [
+		{
+			"name": "Mock Premier League",
+			"script": "dist/server.js",
+			"min_uptime": 36000,
+			"max_restarts": 10,
+			"vizion": false,
+			"exec_mode": "fork",
+			"watch": false
+		}
+	]
+}

@@ -1,0 +1,5 @@
+export enum FixtureStatus {
+	INPROGRESS = 'IN PROGRESS',
+	PENDING = 'PENDING',
+	COMPLETED = 'COMPLETED'
+}

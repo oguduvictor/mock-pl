@@ -1,0 +1,40 @@
+version: '3'
+services:
+  web:
+    build: .
+    container_name: "web-premier-league"
+    depends_on:
+      - mongodb
+    env_file:
+     - .env
+    environment:
+     - NODE_ENV=production
+  mongodb:
+    image: "mongo:4.0.6"
+    container_name: "typeorm-mongodb"
+    hostname: "mongodb"
+    ports:
+      - "27017:27017"
+  redis:
+    image: redis:5.0.6
+    container_name: "typeorm-redis"
+    hostname: "redis"
+    ports:
+      - "6379:6379"
+  # redis:
+  #   image: redis:5.0.6
+  #   container_name: "typeorm-redis"
+  #   expose:
+  #     - 6379
+  # redis:
+  #   image: redis:5.0.6
+  #   container_name: "typeorm-redis"
+  #   # expose:
+  #   #   - "6379"
+  #   volumes:
+  #     - ./code
+  #   command: ["redis-server", "--appendonly", "yes"]
+  #   hostname: redis
+  #   ports:
+  #     - "6379:6379"
+

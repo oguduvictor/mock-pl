@@ -1,0 +1,21 @@
+{
+	"type": "mongodb",
+	"database": "MPL",
+	"synchronize": true,
+	"logging": false,
+	"entities": ["src/entity/**/*.ts"],
+	"migrations": ["src/migration/**/*.ts"],
+	"subscribers": ["src/subscriber/**/*.ts"],
+	"cli": {
+		"entitiesDir": "src/entity",
+		"migrationsDir": "src/migration",
+		"subscribersDir": "src/subscriber"
+	},
+	"cache": {
+		"type": "redis",
+		"options": {
+			"host": "redis",
+			"port": 6379
+		}
+	}
+}
