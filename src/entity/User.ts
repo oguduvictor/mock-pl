@@ -19,7 +19,8 @@ export class User extends BaseEntity {
 
 	@IsJWT()
 	@Column({
-		nullable: false
+		nullable: false,
+		select: false
 	})
 	passwordHash: string;
 

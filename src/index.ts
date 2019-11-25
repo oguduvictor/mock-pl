@@ -107,7 +107,13 @@ createConnection({ ...Config.ormConfig } as ConnectionOptions)
 				info: {
 					title: 'MPL Fixtures',
 					description: 'Mock Premier League teams and fixtures API'
-				} as InfoObject
+				} as InfoObject,
+				bearerAuth: {
+					scheme: 'bearer',
+					type: 'http',
+					in: 'header',
+					format: 'Bearer {token}'
+				}
 			}
 		);
 

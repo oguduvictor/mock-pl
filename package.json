@@ -19,6 +19,7 @@
 		"body-parser": "^1.19.0",
 		"class-transformer": "^0.2.3",
 		"class-validator": "^0.11.0",
+		"class-validator-jsonschema": "^1.3.0",
 		"connect-redis": "^4.0.3",
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
@@ -41,6 +42,8 @@
 		"dev:watch": "nodemon",
 		"docker": "docker-compose up",
 		"pm2": "npm run build:prod && pm2 delete pm2.json && pm2 start pm2.json",
-		"prod": "tsc -p . && ts-node dist/index.js"
+		"prod": "tsc -p . && ts-node dist/index.js",
+		"typeorm-migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
+		"typeorm-migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
 	}
 }

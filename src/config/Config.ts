@@ -12,7 +12,7 @@ namespace Config {
 		port: Number(process.env.MONGO_PORT) || 27017,
 		database: 'MPL',
 		synchronize: true,
-		logging: false,
+		logging: true,
 		entities: ['src/entity/**/*.ts'],
 		migrations: ['src/migration/**/*.ts'],
 		subscribers: ['src/subscriber/**/*.ts'],

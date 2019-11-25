@@ -4,11 +4,14 @@ import {
 	Post,
 	Delete,
 	Body,
-	Param
+	Param,
+	Authorized
 } from 'routing-controllers';
 import { UserService } from '../service/UserService';
 import { IUser } from '../dto/IUser';
+import { UserRole } from '../enums/UserRole';
 
+@Authorized(UserRole.ADMIN)
 @JsonController('/users')
 export class UserController {
 	constructor(private userService: UserService) {}
@@ -29,7 +32,7 @@ export class UserController {
 	}
 
 	@Delete('/:id')
-	async remove(id): Promise<void> {
+	async remove(@Param('id') id: string): Promise<void> {
 		await this.userService.delete(id);
 	}
 }

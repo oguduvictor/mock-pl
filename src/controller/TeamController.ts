@@ -22,6 +22,7 @@ export class TeamController {
 		return this.teamService.getAll(name);
 	}
 
+	@Authorized([UserRole.ADMIN, UserRole.USER])
 	@Get('/:id')
 	async one(@Param('id') id: string): Promise<ITeam> {
 		return this.teamService.getOne(id);
