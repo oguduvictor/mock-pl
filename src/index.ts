@@ -140,6 +140,18 @@ createConnection({ ...Config.ormConfig } as ConnectionOptions)
 
 		app.use(bodyParser.json());
 
+		// 404 Error
+		app.use(function(req, res, next) {
+			return res
+				.status(404)
+				.send({ message: 'Route' + req.url + ' Not found.' });
+		});
+
+		// 500 - Any server error
+		app.use(function(err, req, res, next) {
+			return res.status(500).send({ error: err });
+		});
+
 		// start express server
 		app.listen(3000);
 
