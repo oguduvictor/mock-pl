@@ -6,22 +6,25 @@ import { ITokenData } from '../../../src/dto/ITokenData';
 
 describe('AccountController', () => {
 	let accountController: AccountController;
+	let accountService: jest.Mock<AccountService, any>;
 
-	const accountService = jest.fn<AccountService, any>(
-		() =>
-			({
-				login: async (loginDto: ILoginDto): Promise<ITokenData> =>
-					({
-						token: '',
-						expiresIn: 90
-					} as ITokenData),
-				register: async (registerDto: IRegisterDto) =>
-					({
-						token: '',
-						expiresIn: 90
-					} as ITokenData)
-			} as AccountService)
-	);
+	beforeAll(() => {
+		accountService = jest.fn<AccountService, any>(
+			() =>
+				({
+					login: async (loginDto: ILoginDto): Promise<ITokenData> =>
+						({
+							token: '',
+							expiresIn: 90
+						} as ITokenData),
+					register: async (registerDto: IRegisterDto) =>
+						({
+							token: '',
+							expiresIn: 90
+						} as ITokenData)
+				} as AccountService)
+		);
+	});
 
 	beforeEach(() => {
 		accountController = new AccountController(accountService());
