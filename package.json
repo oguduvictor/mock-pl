@@ -8,9 +8,12 @@
 		"@types/connect-redis": "0.0.13",
 		"@types/express": "^4.17.2",
 		"@types/express-session": "^1.15.16",
+		"@types/jest": "^24.0.23",
 		"@types/jsonwebtoken": "^8.3.5",
 		"@types/node": "^12.12.8",
 		"@types/redis": "^2.8.14",
+		"jest": "^24.9.0",
+		"ts-jest": "^24.2.0",
 		"ts-node": "^8.5.2",
 		"typescript": "^3.7.2"
 	},
