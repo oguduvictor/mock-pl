@@ -25,6 +25,8 @@ import { JwtTokenHandler } from './helpers/JwtTokenHandler';
 import ErrorMessage from './constants/ErrorMessage';
 import Config from './config/Config';
 
+require('dotenv').config();
+
 // Dependency injection
 typeormUseContainer(Container);
 routingUseContainer(Container);
@@ -161,8 +163,8 @@ createConnection({ ...Config.ormConfig } as ConnectionOptions)
 		});
 
 		// start express server
-		app.listen(8080);
+		app.listen(Config.appPort);
 
-		console.log(`Express server has started`);
+		console.log(`Express server has started on port ${Config.appPort}`);
 	})
 	.catch(error => console.error(error));

@@ -21,7 +21,7 @@ RUN apk add --no-cache --virtual .gyp \
 COPY . .
 
 #exposing the endpoint
-EXPOSE 8000
+# EXPOSE 8000
 
 # running the command
 CMD ["npm","run", "prod"]

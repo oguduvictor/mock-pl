@@ -38,6 +38,8 @@ namespace Config {
 	export const redisHost = process.env.REDIS_HOST || 'localhost';
 	export const redisPort = Number(process.env.REDIS_PORT) || 6379;
 	export const redisPass = process.env.REDIS_PASS;
+
+	export const appPort = process.env.PORT || 8080;
 }
 
 export default Config;
