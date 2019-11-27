@@ -8,12 +8,14 @@ export class AccountController {
 	constructor(private accountService: AccountService) {}
 
 	@Post('/register')
-	async register(@Body() payload: IRegisterDto) {
+	async register(
+		@Body({ required: true, validate: true }) payload: IRegisterDto
+	) {
 		return this.accountService.register(payload);
 	}
 
 	@Post('/login')
-	async login(@Body() payload: ILoginDto) {
+	async login(@Body({ required: true, validate: true }) payload: ILoginDto) {
 		return this.accountService.login(payload);
 	}
 }

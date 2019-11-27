@@ -44,7 +44,9 @@ export class FixturesController {
 
 	@Authorized(UserRole.ADMIN)
 	@Post()
-	async save(@Body() payload: IFixture): Promise<IFixture> {
+	async save(
+		@Body({ required: true, validate: true }) payload: IFixture
+	): Promise<IFixture> {
 		return this.fixtureService.save(payload);
 	}
 

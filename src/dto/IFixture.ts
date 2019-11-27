@@ -5,11 +5,11 @@ import { FixtureStatus } from '../enums/FixtureStatus';
 export interface IFixture extends IBaseDto {
 	homeTeam: ITeam;
 
-	homeTeamScore: number;
+	homeTeamScore?: number;
 
 	awayTeam: ITeam;
 
-	awayTeamScore: number;
+	awayTeamScore?: number;
 
 	link: string;
 

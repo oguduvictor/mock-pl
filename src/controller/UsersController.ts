@@ -27,7 +27,9 @@ export class UsersController {
 	}
 
 	@Post()
-	async save(@Body() payload: IUser): Promise<IUser> {
+	async save(
+		@Body({ required: true, validate: true }) payload: IUser
+	): Promise<IUser> {
 		return this.userService.save(payload);
 	}
 

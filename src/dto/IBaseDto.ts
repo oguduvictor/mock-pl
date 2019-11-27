@@ -1,7 +1,7 @@
 export interface IBaseDto {
-	id: string;
+	id?: string;
 
-	created: Date;
+	created?: Date;
 
-	modified: Date;
+	modified?: Date;
 }
