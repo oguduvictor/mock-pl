@@ -13,7 +13,7 @@ import { UserRole } from '../enums/UserRole';
 
 @Authorized(UserRole.ADMIN)
 @JsonController('/users')
-export class UserController {
+export class UsersController {
 	constructor(private userService: UserService) {}
 
 	@Get()

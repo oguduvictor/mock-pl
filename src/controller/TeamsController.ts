@@ -14,7 +14,7 @@ import { UserRole } from '../enums/UserRole';
 import { ITeam } from '../dto/ITeam';
 
 @JsonController('/teams')
-export class TeamController {
+export class TeamsController {
 	constructor(private teamService: TeamService) {}
 
 	@Get()

@@ -1,4 +1,4 @@
-import { FixtureController } from '../../../src/controller/FixtureController';
+import { FixturesController } from '../../../src/controller/FixturesController';
 import { FixtureService } from '../../../src/service/FixtureService';
 import { IFixture } from '../../../src/dto/IFixture';
 import { DeleteResult } from 'typeorm';
@@ -6,7 +6,7 @@ import { Fixtures } from '../__mocks__/MockData';
 import { FixtureStatus } from '../../../src/enums/FixtureStatus';
 
 describe('FixtureController', () => {
-	let fixtureController: FixtureController;
+	let fixtureController: FixturesController;
 	let fixtureService: jest.Mock<FixtureService, any>;
 
 	beforeAll(() => {
@@ -34,7 +34,7 @@ describe('FixtureController', () => {
 	});
 
 	beforeEach(() => {
-		fixtureController = new FixtureController(fixtureService());
+		fixtureController = new FixturesController(fixtureService());
 	});
 
 	it('Should be able to search Fixtures by name', async () => {

@@ -22,7 +22,10 @@ export class FixtureService {
 		from?: Date,
 		to?: Date
 	): Promise<IFixture[]> => {
-		let filterOptions: any = { where: { $and: [{}] } };
+		let filterOptions: any = {
+			where: { $and: [{}] },
+			cache: true //60000 /*1 minute*/
+		};
 
 		if (team)
 			filterOptions = {

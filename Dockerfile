@@ -9,18 +9,6 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-# installing dependencies
-# RUN npm install
-# --no-cache: download package index on-the-fly, no need to cleanup afterwards
-# --virtual: bundle packages, remove whole bundle at once, when done
-
-# RUN apk --no-cache --virtual build-dependencies add \
-#     python \
-#     make \
-#     g++ \
-#     && npm install \
-#     && apk del build-dependencies
-
 RUN apk add --no-cache --virtual .gyp \
     python \
     make \
@@ -29,11 +17,6 @@ RUN apk add --no-cache --virtual .gyp \
     && apk del .gyp
 
 # copying all files - except node_modules (exempted through via .dockerignore) 
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# RUN npm install
-
 # Bundle app source
 COPY . .
 
@@ -41,4 +24,4 @@ COPY . .
 EXPOSE 8000
 
 # running the command
-CMD ["npm","run", "prod-docker"]
+CMD ["npm","run", "prod"]

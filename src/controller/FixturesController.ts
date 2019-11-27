@@ -13,8 +13,8 @@ import { UserRole } from '../enums/UserRole';
 import { FixtureStatus } from '../enums/FixtureStatus';
 import { IFixture } from '../dto/IFixture';
 
-@JsonController('/fixture')
-export class FixtureController {
+@JsonController('/fixtures')
+export class FixturesController {
 	constructor(private fixtureService: FixtureService) {}
 
 	@Get()
@@ -44,13 +44,13 @@ export class FixtureController {
 
 	@Authorized(UserRole.ADMIN)
 	@Post()
-	async save(@Body() payload): Promise<IFixture> {
+	async save(@Body() payload: IFixture): Promise<IFixture> {
 		return this.fixtureService.save(payload);
 	}
 
 	@Authorized(UserRole.ADMIN)
 	@Delete('/:id')
-	async remove(id): Promise<void> {
+	async remove(id: string): Promise<void> {
 		await this.fixtureService.delete(id);
 	}
 }

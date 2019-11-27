@@ -1,11 +1,11 @@
-import { TeamController } from '../../../src/controller/TeamController';
+import { TeamsController } from '../../../src/controller/TeamsController';
 import { TeamService } from '../../../src/service/TeamService';
 import { ITeam } from '../../../src/dto/ITeam';
 import { DeleteResult } from 'typeorm';
 import { Teams } from '../__mocks__/MockData';
 
 describe('TeamController', () => {
-	let teamController: TeamController;
+	let teamController: TeamsController;
 	let teamService: jest.Mock<TeamService, any>;
 
 	beforeAll(() => {
@@ -28,7 +28,7 @@ describe('TeamController', () => {
 	});
 
 	beforeEach(() => {
-		teamController = new TeamController(teamService());
+		teamController = new TeamsController(teamService());
 	});
 
 	it('Should be able to search teams by name', async () => {

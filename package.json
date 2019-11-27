@@ -44,9 +44,10 @@
 		"dev": "ts-node src/index.ts",
 		"dev:watch": "nodemon",
 		"docker": "docker-compose up",
-		"pm2": "npm run build:prod && pm2 delete pm2.json && pm2 start pm2.json",
-		"prod": "tsc -p . && ts-node dist/index.js",
+		"prod": "tsc -p . && ts-node dist/src/index.js",
+		"test": "jest",
 		"typeorm-migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
-		"typeorm-migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
+		"typeorm-migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
+		"heroku:deploy": "heroku container:push web && heroku container:release web"
 	}
 }

@@ -31,6 +31,10 @@ routingUseContainer(Container);
 
 createConnection({ ...Config.ormConfig } as ConnectionOptions)
 	.then(async connection => {
+		connection.runMigrations({
+			transaction: 'none'
+		});
+
 		const routingControllersOptions = {
 			cors: {
 				'Access-Control-Allow-Origin': '*',
@@ -45,7 +49,6 @@ createConnection({ ...Config.ormConfig } as ConnectionOptions)
 		const app = createExpressServer({
 			...routingControllersOptions,
 			classTransformer: true,
-
 			authorizationChecker: async (
 				action: Action,
 				roles: string[] = []
@@ -99,6 +102,30 @@ createConnection({ ...Config.ormConfig } as ConnectionOptions)
 			}
 		});
 
+		const client = redis.createClient({
+			auth_pass: Config.redisPass,
+			host: Config.redisHost,
+			port: Config.redisPort
+		});
+
+		client.on('connect', function(err) {
+			console.log('redis connect successful');
+		});
+
+		const RedisStore = connectRedis(session);
+
+		// Registering Redis for jwt session management when needed
+		app.use(
+			session({
+				name: 'MPL Redis Session',
+				store: new RedisStore({ client }),
+				secret: '29+zml]ms9o2moj[11',
+				resave: false,
+				saveUninitialized: false,
+				cookie: { secure: false }
+			})
+		);
+
 		// Generates swagger schema
 		const swaggerJsonSpec = routingControllersToSpec(
 			getMetadataArgsStorage() as any,
@@ -115,25 +142,6 @@ createConnection({ ...Config.ormConfig } as ConnectionOptions)
 					format: 'Bearer {token}'
 				}
 			}
-		);
-
-		const client = redis.createClient({
-			host: Config.redisHost,
-			port: Config.redisPort
-		});
-
-		const RedisStore = connectRedis(session);
-
-		// Registering Redis for jwt session management
-		app.use(
-			session({
-				name: 'MPL Redis Session',
-				store: new RedisStore({ client }),
-				secret: '29+zml]ms9o2moj[11',
-				resave: false,
-				saveUninitialized: false,
-				cookie: { secure: false }
-			})
 		);
 
 		app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsonSpec));
@@ -153,10 +161,8 @@ createConnection({ ...Config.ormConfig } as ConnectionOptions)
 		});
 
 		// start express server
-		app.listen(3000);
+		app.listen(8080);
 
-		console.log(
-			`Express server has started on port 3000. Open http://localhost:3000/api-docs to see swagger view`
-		);
+		console.log(`Express server has started`);
 	})
 	.catch(error => console.error(error));

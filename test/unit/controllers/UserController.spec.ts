@@ -1,11 +1,11 @@
-import { UserController } from '../../../src/controller/UserController';
+import { UsersController } from '../../../src/controller/UsersController';
 import { UserService } from '../../../src/service/UserService';
 import { IUser } from '../../../src/dto/IUser';
 import { DeleteResult } from 'typeorm';
 import { Users } from '../__mocks__/MockData';
 
 describe('UserController', () => {
-	let userController: UserController;
+	let userController: UsersController;
 	let userService: jest.Mock<UserService, any>;
 
 	beforeAll(() => {
@@ -25,7 +25,7 @@ describe('UserController', () => {
 	});
 
 	beforeEach(() => {
-		userController = new UserController(userService());
+		userController = new UsersController(userService());
 	});
 
 	it('Should be able to get all users', async () => {
