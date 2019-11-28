@@ -20,9 +20,10 @@ describe('FixtureController', () => {
 						matchDate?: Date,
 						from?: Date,
 						to?: Date
-					): Promise<IFixture[]> => Fixtures.filter(x => x.id == '1'),
+					): Promise<IFixture[]> =>
+						Fixtures.filter(x => x._id == '1'),
 					getOne: async (id: string): Promise<IFixture> =>
-						Fixtures.find(x => x.id == id),
+						Fixtures.find(x => x._id == id),
 					save: async (fixture: IFixture): Promise<IFixture> =>
 						fixture,
 					delete: async (id: string): Promise<DeleteResult> => ({
@@ -52,7 +53,7 @@ describe('FixtureController', () => {
 
 		expect(result).toBeTruthy();
 
-		expect(result.id).toBe('3');
+		expect(result._id).toBe('3');
 		expect(result.link).toBe(Fixtures[2].link);
 	});
 
@@ -60,7 +61,7 @@ describe('FixtureController', () => {
 		const result = await fixtureController.save(Fixtures[0]);
 
 		expect(result).toBeTruthy();
-		expect(result.id).toBe(Fixtures[0].id);
+		expect(result._id).toBe(Fixtures[0]._id);
 	});
 
 	it('Should be able to delete a Fixture', async () => {

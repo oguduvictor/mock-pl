@@ -14,7 +14,7 @@ describe('UserController', () => {
 				({
 					getAll: async (): Promise<IUser[]> => Users,
 					getOne: async (id: string): Promise<IUser> =>
-						Users.find(x => x.id == id),
+						Users.find(x => x._id == id),
 					save: async (User: IUser): Promise<IUser> => User,
 					delete: async (id: string): Promise<DeleteResult> => ({
 						affected: 1,
@@ -44,7 +44,7 @@ describe('UserController', () => {
 
 	it('Should be able to save a User', async () => {
 		const result = await userController.save({
-			id: '3',
+			_id: '3',
 			email: 'jane@mail.com',
 			password: 'pass@word1',
 			firstName: 'Jane',
@@ -52,7 +52,7 @@ describe('UserController', () => {
 		} as IUser);
 
 		expect(result).toBeTruthy();
-		expect(result.id).toBe('3');
+		expect(result._id).toBe('3');
 		expect(result.email).toBe('jane@mail.com');
 	});
 

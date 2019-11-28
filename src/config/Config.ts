@@ -3,7 +3,7 @@ import { ConnectionOptions } from 'typeorm';
 namespace Config {
 	export const jwt = {
 		secretKey: process.env.JWT_SECRET || '53cr37jw7k3y',
-		expiresIn: Number(process.env.JWT_EXPIRATION) || 60 * 60, // in seconds
+		expiresIn: Number(process.env.JWT_EXPIRATION) || 60 * 60 * 60 * 60, // in seconds
 		issuer: process.env.JWT_ISSUER || 'Mock Premier League',
 		audience: process.env.JWT_AUDIENCE || 'http://localhost:3000'
 	};

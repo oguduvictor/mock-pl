@@ -1,8 +1,9 @@
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Team } from '../entity/Team';
-import { Repository, DeleteResult, Like, FindManyOptions } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Service } from 'typedi';
 import { ITeam } from '../dto/ITeam';
+import { NotFoundError } from 'routing-controllers';
 
 @Service()
 export class TeamService {
@@ -27,28 +28,37 @@ export class TeamService {
 	getOne = async (id: string): Promise<ITeam> => {
 		const teamEntity = await this.teamRepository.findOne(id);
 
+		if (!teamEntity) throw new NotFoundError();
+
 		return this.mapToDto(teamEntity);
 	};
 
-	save = async (team: ITeam): Promise<ITeam> => {
-		const teamEntity = {
-			name: team.name,
-			abbreviatedName: team.abbreviatedName,
-			id: team.id
-		} as Team;
-
-		const savedTeamEntity = await this.teamRepository.save(teamEntity);
+	create = async (team: ITeam): Promise<ITeam> => {
+		const savedTeamEntity = await this.teamRepository.save(team as Team);
 
 		return this.mapToDto(savedTeamEntity);
 	};
 
-	delete = async (id: string): Promise<DeleteResult> =>
-		await this.teamRepository.delete(id);
+	update = async (team: ITeam): Promise<ITeam> => {
+		const { _id, ...itemsToUpdate } = team;
+
+		await this.teamRepository.update(_id, itemsToUpdate);
+
+		return team;
+	};
+
+	delete = async (id: string): Promise<Team> => {
+		const teamEntity = await this.teamRepository.findOne(id);
+
+		return await this.teamRepository.remove(teamEntity);
+	};
 
 	private mapToDto = (entity: Team): ITeam =>
-		({
-			id: entity.id.toString(),
-			abbreviatedName: entity.abbreviatedName,
-			name: entity.name
-		} as ITeam);
+		entity == null
+			? null
+			: ({
+					_id: entity._id.toString(),
+					abbreviatedName: entity.abbreviatedName,
+					name: entity.name
+			  } as ITeam);
 }

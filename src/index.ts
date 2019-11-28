@@ -24,6 +24,7 @@ import { User } from './entity/User';
 import { JwtTokenHandler } from './helpers/JwtTokenHandler';
 import ErrorMessage from './constants/ErrorMessage';
 import Config from './config/Config';
+import { Response } from 'express';
 
 require('dotenv').config();
 
@@ -151,15 +152,16 @@ createConnection({ ...Config.ormConfig } as ConnectionOptions)
 		app.use(bodyParser.json());
 
 		// 404 Error
-		app.use(function(req, res, next) {
-			return res
-				.status(404)
-				.send({ message: 'Route' + req.url + ' Not found.' });
+		app.use(function(req, res: Response, next) {
+			if (!res.headersSent && res.statusCode === 404)
+				return res
+					.status(404)
+					.send({ message: 'Route' + req.url + ' Not found.' });
 		});
 
 		// 500 - Any server error
-		app.use(function(err, req, res, next) {
-			return res.status(500).send({ error: err });
+		app.use(function(err, req, res: Response, next) {
+			if (!res.headersSent) return res.status(500).send({ error: err });
 		});
 
 		// start express server

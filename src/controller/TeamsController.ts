@@ -12,6 +12,7 @@ import {
 import { TeamService } from '../service/TeamService';
 import { UserRole } from '../enums/UserRole';
 import { ITeam } from '../dto/ITeam';
+import { Team } from '../entity/Team';
 
 @JsonController('/teams')
 export class TeamsController {
@@ -31,9 +32,9 @@ export class TeamsController {
 	@Authorized(UserRole.ADMIN)
 	@Post()
 	async create(@Body({ required: true }) payload: ITeam): Promise<ITeam> {
-		payload.id = null;
+		payload._id = null;
 
-		return this.teamService.save(payload);
+		return this.teamService.create(payload);
 	}
 
 	@Authorized(UserRole.ADMIN)
@@ -42,14 +43,14 @@ export class TeamsController {
 		@Param('id') id: string,
 		@Body({ required: true }) payload: ITeam
 	): Promise<ITeam> {
-		payload.id = id;
+		payload._id = id;
 
-		return this.teamService.save(payload);
+		return this.teamService.update(payload);
 	}
 
 	@Authorized(UserRole.ADMIN)
 	@Delete('/:id')
-	async remove(@Param('id') id: string): Promise<void> {
-		await this.teamService.delete(id);
+	async remove(@Param('id') id: string): Promise<Team> {
+		return this.teamService.delete(id);
 	}
 }

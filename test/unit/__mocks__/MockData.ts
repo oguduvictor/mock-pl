@@ -6,7 +6,7 @@ import { FixtureStatus } from '../../../src/enums/FixtureStatus';
 
 export const Users: IUser[] = [
 	{
-		id: '1',
+		_id: '1',
 		email: 'victor@mail.com',
 		password: 'pass@word1',
 		firstName: 'Victor',
@@ -14,7 +14,7 @@ export const Users: IUser[] = [
 		role: UserRole.ADMIN
 	},
 	{
-		id: '2',
+		_id: '2',
 		email: 'john@mail.com',
 		password: 'pass@word1',
 		firstName: 'John',
@@ -22,7 +22,7 @@ export const Users: IUser[] = [
 		role: UserRole.USER
 	},
 	{
-		id: '3',
+		_id: '3',
 		email: 'jane@mail.com',
 		password: 'pass@word1',
 		firstName: 'Jane',
@@ -33,32 +33,32 @@ export const Users: IUser[] = [
 
 export const Teams: ITeam[] = [
 	{
-		id: '1',
+		_id: '1',
 		abbreviatedName: 'FCB',
 		name: 'Barcelona'
 	},
 	{
-		id: '2',
+		_id: '2',
 		abbreviatedName: 'MCI',
 		name: 'Manchester City'
 	},
 	{
-		id: '3',
+		_id: '3',
 		abbreviatedName: 'RMA',
 		name: 'Real Madrid'
 	},
 	{
-		id: '4',
+		_id: '4',
 		abbreviatedName: 'LFC',
 		name: 'Liverpool'
 	},
 	{
-		id: '5',
+		_id: '5',
 		abbreviatedName: 'ATM',
 		name: 'Atletico Madrid'
 	},
 	{
-		id: '6',
+		_id: '6',
 		abbreviatedName: 'CFC',
 		name: 'Chelsea'
 	}
@@ -66,7 +66,7 @@ export const Teams: ITeam[] = [
 
 export const Fixtures: IFixture[] = [
 	{
-		id: '1',
+		_id: '1',
 		awayTeam: Teams[1],
 		homeTeam: Teams[0],
 		link: 'fcb - mci',
@@ -74,7 +74,7 @@ export const Fixtures: IFixture[] = [
 		status: FixtureStatus.PENDING
 	},
 	{
-		id: '2',
+		_id: '2',
 		awayTeam: Teams[2],
 		homeTeam: Teams[3],
 		link: 'rma - lfc',
@@ -84,7 +84,7 @@ export const Fixtures: IFixture[] = [
 		awayTeamScore: 4
 	},
 	{
-		id: '3',
+		_id: '3',
 		awayTeam: Teams[4],
 		homeTeam: Teams[5],
 		link: 'atm - cfc',

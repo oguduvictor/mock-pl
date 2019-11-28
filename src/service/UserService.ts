@@ -43,7 +43,7 @@ export class UserService {
 
 	private mapToDto = (entity: User): IUser =>
 		({
-			id: entity.id.toString(),
+			_id: entity._id.toString(),
 			firstName: entity.firstName,
 			email: entity.email,
 			role: entity.role,

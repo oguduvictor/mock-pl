@@ -6,6 +6,7 @@ import { FixtureStatus } from '../enums/FixtureStatus';
 import { IFixture } from '../dto/IFixture';
 import { ITeam } from '../dto/ITeam';
 import { Team } from '../entity/Team';
+import { NotFoundError } from 'routing-controllers';
 
 @Service()
 export class FixtureService {
@@ -111,17 +112,19 @@ export class FixtureService {
 	};
 
 	getOne = async (id: string): Promise<IFixture> => {
-		const teamEntity = await this.fixtureRepository.findOne(id);
+		const fixtureEntity = await this.fixtureRepository.findOne(id);
 
-		return this.mapToDto(teamEntity);
+		if (!fixtureEntity) throw new NotFoundError();
+
+		return this.mapToDto(fixtureEntity);
 	};
 
 	save = async (fixture: IFixture): Promise<IFixture> => {
 		const fi = {
-			id: fixture.id,
+			_id: fixture._id,
 			awayTeam: fixture.awayTeam
 				? ({
-						id: fixture.awayTeam.id,
+						_id: fixture.awayTeam._id,
 						abbreviatedName: fixture.awayTeam.abbreviatedName,
 						name: fixture.awayTeam.name
 				  } as Team)
@@ -129,7 +132,7 @@ export class FixtureService {
 			awayTeamScore: fixture.awayTeamScore,
 			homeTeam: fixture.homeTeam
 				? ({
-						id: fixture.homeTeam.id,
+						_id: fixture.homeTeam._id,
 						abbreviatedName: fixture.homeTeam.abbreviatedName,
 						name: fixture.homeTeam.name
 				  } as Team)
@@ -149,11 +152,11 @@ export class FixtureService {
 
 	private mapToDto = (entity: Fixture): IFixture =>
 		({
-			id: entity.id.toString(),
+			_id: entity._id.toString(),
 			awayTeam: !entity.awayTeam
 				? null
 				: ({
-						id: entity.awayTeam.id.toString(),
+						_id: entity.awayTeam._id.toString(),
 						name: entity.awayTeam.name,
 						abbreviatedName: entity.awayTeam.abbreviatedName
 				  } as ITeam),
@@ -161,7 +164,7 @@ export class FixtureService {
 			homeTeam: !entity.homeTeam
 				? null
 				: ({
-						id: entity.homeTeam.id.toString(),
+						_id: entity.homeTeam._id.toString(),
 						name: entity.homeTeam.name,
 						abbreviatedName: entity.homeTeam.abbreviatedName
 				  } as ITeam),

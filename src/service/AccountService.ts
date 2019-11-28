@@ -37,7 +37,7 @@ export class AccountService {
 
 		return {
 			token: JwtTokenHandler.getAccessToken({
-				userId: user.id.toString()
+				userId: user._id.toString()
 			}),
 			expiresIn: Config.jwt.expiresIn
 		} as ITokenData;
@@ -55,7 +55,7 @@ export class AccountService {
 
 		return {
 			token: JwtTokenHandler.getAccessToken({
-				userId: savedUserEntity.id.toString()
+				userId: savedUserEntity._id.toString()
 			}),
 			expiresIn: Config.jwt.expiresIn
 		} as ITokenData;

@@ -17,7 +17,7 @@ describe('TeamController', () => {
 							x.name.toLowerCase().includes(name.toLowerCase())
 						) as ITeam[],
 					getOne: async (id: string): Promise<ITeam> =>
-						Teams.find(x => x.id == id),
+						Teams.find(x => x._id == id),
 					save: async (team: ITeam): Promise<ITeam> => team,
 					delete: async (id: string): Promise<DeleteResult> => ({
 						affected: 1,
