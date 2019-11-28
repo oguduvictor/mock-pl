@@ -1,11 +1,10 @@
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Fixture } from '../entity/Fixture';
 import { Service } from 'typedi';
 import { FixtureStatus } from '../enums/FixtureStatus';
 import { IFixture } from '../dto/IFixture';
 import { ITeam } from '../dto/ITeam';
-import { Team } from '../entity/Team';
 import { NotFoundError } from 'routing-controllers';
 
 @Service()
@@ -35,13 +34,13 @@ export class FixtureService {
 					...filterOptions.where,
 					$or: [
 						{
-							'awayTeam.name': new RegExp(team, 'gi'),
-							'awayTeam.abbreviatedName': new RegExp(team, 'gi')
+							'awayTeam.name': new RegExp(team, 'gi')
 						},
+						{ 'awayTeam.abbreviatedName': new RegExp(team, 'gi') },
 						{
-							'homeTeam.name': new RegExp(team, 'gi'),
-							'homeTeam.abbreviatedName': new RegExp(team, 'gi')
-						}
+							'homeTeam.name': new RegExp(team, 'gi')
+						},
+						{ 'homeTeam.abbreviatedName': new RegExp(team, 'gi') }
 					]
 				}
 			};
@@ -64,7 +63,7 @@ export class FixtureService {
 			fromDate.setHours(0, 0, 0);
 
 			const toDate = new Date(matchDate);
-			toDate.setHours(23, 59, 59);
+			toDate.setHours(24);
 
 			filterOptions = {
 				...filterOptions,
@@ -119,58 +118,54 @@ export class FixtureService {
 		return this.mapToDto(fixtureEntity);
 	};
 
-	save = async (fixture: IFixture): Promise<IFixture> => {
-		const fi = {
-			_id: fixture._id,
-			awayTeam: fixture.awayTeam
-				? ({
-						_id: fixture.awayTeam._id,
-						abbreviatedName: fixture.awayTeam.abbreviatedName,
-						name: fixture.awayTeam.name
-				  } as Team)
-				: null,
-			awayTeamScore: fixture.awayTeamScore,
-			homeTeam: fixture.homeTeam
-				? ({
-						_id: fixture.homeTeam._id,
-						abbreviatedName: fixture.homeTeam.abbreviatedName,
-						name: fixture.homeTeam.name
-				  } as Team)
-				: null,
-			homeTeamScore: fixture.homeTeamScore,
-			link: fixture.link,
-			matchDate: new Date(fixture.matchDate),
-			status: fixture.status
-		} as Fixture;
-		const teamEntity = await this.fixtureRepository.save(fixture);
+	create = async (fixture: IFixture): Promise<IFixture> => {
+		const { matchDate, ...others } = fixture;
 
-		return this.mapToDto(teamEntity);
+		others['matchDate'] = new Date(matchDate);
+
+		const savedFixtureEntity = await this.fixtureRepository.save(
+			others as IFixture
+		);
+
+		return this.mapToDto(savedFixtureEntity);
 	};
 
-	delete = async (id: string): Promise<DeleteResult> =>
+	update = async (id: string, fixture: IFixture): Promise<IFixture> => {
+		const { _id, matchDate, ...itemsToUpdate } = fixture;
+
+		itemsToUpdate['matchDate'] = new Date(matchDate);
+
+		await this.fixtureRepository.update(id, itemsToUpdate);
+
+		return itemsToUpdate as IFixture;
+	};
+
+	delete = async (id: string): Promise<any> =>
 		await this.fixtureRepository.delete(id);
 
 	private mapToDto = (entity: Fixture): IFixture =>
-		({
-			_id: entity._id.toString(),
-			awayTeam: !entity.awayTeam
-				? null
-				: ({
-						_id: entity.awayTeam._id.toString(),
-						name: entity.awayTeam.name,
-						abbreviatedName: entity.awayTeam.abbreviatedName
-				  } as ITeam),
-			awayTeamScore: entity.awayTeamScore,
-			homeTeam: !entity.homeTeam
-				? null
-				: ({
-						_id: entity.homeTeam._id.toString(),
-						name: entity.homeTeam.name,
-						abbreviatedName: entity.homeTeam.abbreviatedName
-				  } as ITeam),
-			homeTeamScore: entity.homeTeamScore,
-			link: entity.link,
-			matchDate: entity.matchDate,
-			status: entity.status
-		} as IFixture);
+		entity == null
+			? null
+			: ({
+					_id: entity._id.toString(),
+					awayTeam: !entity.awayTeam
+						? null
+						: ({
+								_id: entity.awayTeam._id.toString(),
+								name: entity.awayTeam.name,
+								abbreviatedName: entity.awayTeam.abbreviatedName
+						  } as ITeam),
+					awayTeamScore: entity.awayTeamScore,
+					homeTeam: !entity.homeTeam
+						? null
+						: ({
+								_id: entity.homeTeam._id.toString(),
+								name: entity.homeTeam.name,
+								abbreviatedName: entity.homeTeam.abbreviatedName
+						  } as ITeam),
+					homeTeamScore: entity.homeTeamScore,
+					link: entity.link,
+					matchDate: entity.matchDate,
+					status: entity.status
+			  } as IFixture);
 }

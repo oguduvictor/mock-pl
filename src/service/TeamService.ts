@@ -1,6 +1,6 @@
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Team } from '../entity/Team';
-import { Repository } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 import { Service } from 'typedi';
 import { ITeam } from '../dto/ITeam';
 import { NotFoundError } from 'routing-controllers';
@@ -39,19 +39,16 @@ export class TeamService {
 		return this.mapToDto(savedTeamEntity);
 	};
 
-	update = async (team: ITeam): Promise<ITeam> => {
+	update = async (id: string, team: ITeam): Promise<ITeam> => {
 		const { _id, ...itemsToUpdate } = team;
 
-		await this.teamRepository.update(_id, itemsToUpdate);
+		await this.teamRepository.update(id, itemsToUpdate);
 
-		return team;
+		return itemsToUpdate;
 	};
 
-	delete = async (id: string): Promise<Team> => {
-		const teamEntity = await this.teamRepository.findOne(id);
-
-		return await this.teamRepository.remove(teamEntity);
-	};
+	delete = async (id: string): Promise<any> =>
+		await this.teamRepository.delete(id);
 
 	private mapToDto = (entity: Team): ITeam =>
 		entity == null

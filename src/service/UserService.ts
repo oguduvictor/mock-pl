@@ -28,25 +28,42 @@ export class UserService {
 		return this.mapToDto(userEntity);
 	};
 
-	save = async (user: IUser): Promise<IUser> => {
-		const userEntity = Mapper.map<IUser, User>(user);
+	create = async (user: IUser): Promise<IUser> => {
+		const { _id, password, ...userToCreate } = user;
 
-		userEntity.passwordHash = await PasswordHasher.hash(user.password);
+		userToCreate['passwordHash'] = await PasswordHasher.hash(password);
 
-		const savedUserEntity = await this.userRepository.save(userEntity);
+		const savedUserEntity = await this.userRepository.save(
+			userToCreate as User
+		);
 
 		return this.mapToDto(savedUserEntity);
 	};
 
+	update = async (id: string, user: IUser): Promise<IUser> => {
+		const { _id, password, ...itemsToUpdate } = user;
+
+		if (password)
+			itemsToUpdate['passwordHash'] = await PasswordHasher.hash(password);
+
+		await this.userRepository.update(id, itemsToUpdate);
+
+		delete itemsToUpdate['passwordHash'];
+
+		return itemsToUpdate as IUser;
+	};
+
 	delete = async (id: string): Promise<DeleteResult> =>
-		await this.userRepository.delete(id);
+		this.userRepository.delete(id);
 
 	private mapToDto = (entity: User): IUser =>
-		({
-			_id: entity._id.toString(),
-			firstName: entity.firstName,
-			email: entity.email,
-			role: entity.role,
-			lastName: entity.lastName
-		} as IUser);
+		entity == null
+			? null
+			: ({
+					_id: entity._id.toString(),
+					firstName: entity.firstName,
+					email: entity.email,
+					role: entity.role,
+					lastName: entity.lastName
+			  } as IUser);
 }

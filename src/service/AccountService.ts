@@ -10,6 +10,7 @@ import { Service } from 'typedi';
 import { BadRequestError } from 'routing-controllers';
 import Config from '../config/Config';
 import { ITokenData } from '../dto/ITokenData';
+import { UserRole } from '../enums/UserRole';
 
 @Service()
 export class AccountService {
@@ -48,7 +49,8 @@ export class AccountService {
 			firstName: registerDto.firstName,
 			lastName: registerDto.lastName,
 			email: registerDto.email,
-			passwordHash: await PasswordHasher.hash(registerDto.password)
+			passwordHash: await PasswordHasher.hash(registerDto.password),
+			role: UserRole.USER
 		} as User;
 
 		const savedUserEntity = await this.userRepository.save(user);

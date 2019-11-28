@@ -24,12 +24,13 @@ describe('FixtureController', () => {
 						Fixtures.filter(x => x._id == '1'),
 					getOne: async (id: string): Promise<IFixture> =>
 						Fixtures.find(x => x._id == id),
-					save: async (fixture: IFixture): Promise<IFixture> =>
+					create: async (fixture: IFixture): Promise<IFixture> =>
 						fixture,
-					delete: async (id: string): Promise<DeleteResult> => ({
-						affected: 1,
-						raw: ''
-					})
+					update: async (
+						id: string,
+						fixture: IFixture
+					): Promise<IFixture> => fixture,
+					delete: async (id: string): Promise<any> => ({})
 				} as FixtureService)
 		);
 	});
@@ -67,6 +68,6 @@ describe('FixtureController', () => {
 	it('Should be able to delete a Fixture', async () => {
 		const result = await fixtureController.remove('1');
 
-		expect(result).toBeUndefined();
+		expect(result).toBeTruthy();
 	});
 });

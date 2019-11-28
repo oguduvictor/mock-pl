@@ -6,7 +6,8 @@ import {
 	Body,
 	Param,
 	Authorized,
-	QueryParam
+	QueryParam,
+	Put
 } from 'routing-controllers';
 import { FixtureService } from '../service/FixtureService';
 import { UserRole } from '../enums/UserRole';
@@ -47,12 +48,21 @@ export class FixturesController {
 	async save(
 		@Body({ required: true, validate: true }) payload: IFixture
 	): Promise<IFixture> {
-		return this.fixtureService.save(payload);
+		return this.fixtureService.create(payload);
+	}
+
+	@Authorized(UserRole.ADMIN)
+	@Put('/:id')
+	async update(
+		@Param('id') id: string,
+		@Body({ required: true, validate: true }) payload: IFixture
+	): Promise<IFixture> {
+		return this.fixtureService.update(id, payload);
 	}
 
 	@Authorized(UserRole.ADMIN)
 	@Delete('/:id')
-	async remove(id: string): Promise<void> {
-		await this.fixtureService.delete(id);
+	async remove(id: string): Promise<any> {
+		return await this.fixtureService.delete(id);
 	}
 }

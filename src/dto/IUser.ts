@@ -2,13 +2,13 @@ import { UserRole } from '../enums/UserRole';
 import { IBaseDto } from './IBaseDto';
 
 export interface IUser extends IBaseDto {
-	firstName: string;
+	firstName?: string;
 
-	lastName: string;
+	lastName?: string;
 
 	email: string;
 
-	password: string;
+	password?: string;
 
-	role: UserRole;
+	role?: UserRole;
 }

@@ -5,7 +5,8 @@ import {
 	Delete,
 	Body,
 	Param,
-	Authorized
+	Authorized,
+	Put
 } from 'routing-controllers';
 import { UserService } from '../service/UserService';
 import { IUser } from '../dto/IUser';
@@ -26,15 +27,23 @@ export class UsersController {
 		return this.userService.getOne(id);
 	}
 
-	@Post()
-	async save(
+	@Put('/:id')
+	async update(
+		@Param('id') id: string,
 		@Body({ required: true, validate: true }) payload: IUser
 	): Promise<IUser> {
-		return this.userService.save(payload);
+		return this.userService.update(id, payload);
+	}
+
+	@Post()
+	async create(
+		@Body({ required: true, validate: true }) payload: IUser
+	): Promise<IUser> {
+		return this.userService.create(payload);
 	}
 
 	@Delete('/:id')
-	async remove(@Param('id') id: string): Promise<void> {
-		await this.userService.delete(id);
+	async remove(@Param('id') id: string): Promise<any> {
+		return await this.userService.delete(id);
 	}
 }

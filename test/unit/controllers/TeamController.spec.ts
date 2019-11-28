@@ -1,7 +1,6 @@
 import { TeamsController } from '../../../src/controller/TeamsController';
 import { TeamService } from '../../../src/service/TeamService';
 import { ITeam } from '../../../src/dto/ITeam';
-import { DeleteResult } from 'typeorm';
 import { Teams } from '../__mocks__/MockData';
 
 describe('TeamController', () => {
@@ -18,11 +17,10 @@ describe('TeamController', () => {
 						) as ITeam[],
 					getOne: async (id: string): Promise<ITeam> =>
 						Teams.find(x => x._id == id),
-					save: async (team: ITeam): Promise<ITeam> => team,
-					delete: async (id: string): Promise<DeleteResult> => ({
-						affected: 1,
-						raw: ''
-					})
+					create: async (team: ITeam): Promise<ITeam> => team,
+					update: async (id: string, team: ITeam): Promise<ITeam> =>
+						team,
+					delete: async (id: string): Promise<any> => ({})
 				} as TeamService)
 		);
 	});
@@ -59,7 +57,7 @@ describe('TeamController', () => {
 		expect(result.abbreviatedName).toBe('MAN');
 	});
 
-	it('Should be able to save a team', async () => {
+	it('Should be able to update a team', async () => {
 		const result = await teamController.update('2', {
 			name: 'Manchester',
 			abbreviatedName: 'MCU'
@@ -73,6 +71,6 @@ describe('TeamController', () => {
 	it('Should be able to delete a team', async () => {
 		const result = await teamController.remove('1');
 
-		expect(result).toBeUndefined();
+		expect(result).toBeTruthy();
 	});
 });

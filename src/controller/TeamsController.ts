@@ -32,8 +32,6 @@ export class TeamsController {
 	@Authorized(UserRole.ADMIN)
 	@Post()
 	async create(@Body({ required: true }) payload: ITeam): Promise<ITeam> {
-		payload._id = null;
-
 		return this.teamService.create(payload);
 	}
 
@@ -43,14 +41,12 @@ export class TeamsController {
 		@Param('id') id: string,
 		@Body({ required: true }) payload: ITeam
 	): Promise<ITeam> {
-		payload._id = id;
-
-		return this.teamService.update(payload);
+		return this.teamService.update(id, payload);
 	}
 
 	@Authorized(UserRole.ADMIN)
 	@Delete('/:id')
-	async remove(@Param('id') id: string): Promise<Team> {
+	async remove(@Param('id') id: string): Promise<any> {
 		return this.teamService.delete(id);
 	}
 }
