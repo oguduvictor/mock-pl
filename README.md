@@ -8,3 +8,5 @@ Steps to run this project:
 An API that serves the latest scores of fixtures of matches in a Mock Premier League
 
 The documentation can be found here: https://documenter.getpostman.com/view/1466475/SW7gU57Y
+
+Swagger view is here: https://mighty-brook-23979.herokuapp.com/api-docs/#/
