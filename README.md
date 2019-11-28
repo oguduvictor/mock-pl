@@ -1,4 +1,4 @@
-# Mock Premier League Build with TypeORM, TypeDI and routing controllers
+# Mock Premier League Built with TypeORM, TypeDI and routing controllers
 
 Steps to run this project:
 
